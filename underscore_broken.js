@@ -18,8 +18,8 @@
   var pluck = function(obj, property) {
   };
 
-  // Return an array of the last n elements of an array. If n is 1, return
-  // just the last element
+  // Return an array of the last n elements of an array. If n is undefined,
+  // return just the last element.
   var last = function(array, n) {
   };
 
