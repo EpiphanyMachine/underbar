@@ -1,6 +1,6 @@
 (function() {
   
-  // Call iterator(key, value, obj) for each element of obj
+  // Call iterator(value, key, obj) for each element of obj
   var each = function(obj, iterator) {
   };
 
