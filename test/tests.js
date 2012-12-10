@@ -154,11 +154,18 @@ $(document).ready(function() {
     equal(fastO('toString'), 'toString', 'checks hasOwnProperty');
   });
 
-  asyncTest("delay", 2, function() {
+  asyncTest("delay", 3, function() {
     var delayed = false;
-    _.delay(function(){ delayed = true; }, 100);
+    var testArgs = false;
+    _.delay(
+      function(newVal){ 
+        delayed = true; 
+        testArgs = newVal; 
+      }, 100, true);
+
     setTimeout(function(){ ok(!delayed, "didn't delay the function quite yet"); }, 50);
     setTimeout(function(){ ok(delayed, 'delayed the function'); start(); }, 150);
+    setTimeout(function(){ ok(testArgs, "additional args to delay function are passed in to the callback function successfully"); }, 150);
   });
 
 
