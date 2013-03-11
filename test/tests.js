@@ -158,14 +158,14 @@ $(document).ready(function() {
     var delayed = false;
     var testArgs = false;
     _.delay(
-      function(newVal){ 
-        delayed = true; 
-        testArgs = newVal; 
+      function(newVal){
+        delayed = true;
+        testArgs = newVal;
       }, 100, true);
 
     setTimeout(function(){ ok(!delayed, "didn't delay the function quite yet"); }, 50);
     setTimeout(function(){ ok(delayed, 'delayed the function'); start(); }, 150);
-    setTimeout(function(){ ok(testArgs, "additional args to delay function are passed in to the callback function successfully"); }, 150);
+    setTimeout(function(){ ok(testArgs, 'arguments are passed in to the callback function successfully'); }, 150);
   });
 
 
