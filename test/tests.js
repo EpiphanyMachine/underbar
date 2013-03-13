@@ -47,8 +47,6 @@ $(document).ready(function() {
     equal(_.last([1,2,3], 5).join(', '), '1, 2, 3', 'can pass an index to last');
     var result = (function(){ return _.last(arguments, 2); })(1, 2, 3, 4);
     equal(result.join(", "), "3, 4", 'works on an arguments object');
-    result = _.map([[1,2,3],[1,2,3]], _.last);
-    equal(result.join(','), '3,3', 'works well with _.map');
 
     equal(_.last(null), undefined, 'handles nulls');
   });
@@ -60,8 +58,6 @@ $(document).ready(function() {
     equal(_.first([1,2,3], 5).join(', '), '1, 2, 3', 'can pass an index to first');
     var result = (function(){ return _.first(arguments, 2); })(4, 3, 2, 1);
     equal(result.join(","), "4,3", 'works on an arguments object.');
-    result = _.map([[1,2,3],[1,2,3]], _.first);
-    equal(result.join(','), '1,1', 'works well with _.map');
     equal(_.first(null), undefined, 'handles nulls');
   });
 
