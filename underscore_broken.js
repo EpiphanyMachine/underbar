@@ -1,5 +1,5 @@
 (function() {
-  
+
   // Call iterator(value, key, obj) for each element of obj
   var each = function(obj, iterator) {
   };
@@ -30,7 +30,7 @@
   // Reduces an array or object to a single value by repetitively calling
   // iterator(previousValue, item) for each item. previousValue should be
   // the return value of the previous iterator call.
-  // 
+  //
   // You can pass in an initialValue that is passed to the first iterator
   // call. Defaults to 0.
   //
@@ -87,7 +87,7 @@
   var delay = function(func, wait) {
   };
 
-  // Extend a given object with all the properties of the passed in 
+  // Extend a given object with all the properties of the passed in
   // object(s).
   //
   // Example:
@@ -122,9 +122,9 @@
   var sortBy = function(obj, iterator) {
   };
 
-  // Zip together two or more arrays with elements of the same index 
+  // Zip together two or more arrays with elements of the same index
   // going together.
-  // 
+  //
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3]]
   var zip = function() {
