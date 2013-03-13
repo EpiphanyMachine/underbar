@@ -55,7 +55,8 @@
   var every = function(obj, iterator) {
   };
 
-  // Determine whether any of the elements pass a truth test.
+  // Determine whether any of the elements pass a truth test. If no iterator is
+  // provided, provide a default one
   var any = function(obj, iterator) {
   };
 
