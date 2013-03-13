@@ -6,13 +6,8 @@ $(document).ready(function() {
     });
 
     var answers = [];
-    var obj = {one : 1, two : 2, three : 3};
-    obj.constructor.prototype.four = 4;
-    _.each(obj, function(value, key){ answers.push(key); });
-    equal(answers.join(", "), 'one, two, three', 'iterating over objects works, and ignores the object prototype.');
-    delete obj.constructor.prototype.four;
-
     var answer = null;
+
     _.each([1, 2, 3], function(num, index, arr){ if (arr.indexOf(num)>0) answer = true; });
     ok(answer, 'can reference the original collection from inside the iterator');
 
