@@ -5,15 +5,6 @@ describe("each", function() {
     });
   });
 
-  it("should iterate over objects, ignoring the object prototype", function() {
-    var answers = [];
-    var obj = {one : 1, two : 2, three : 3};
-    obj.constructor.prototype.four = 4;
-    _.each(obj, function(value, key){ answers.push(key); });
-    expect(answers.join(", ")).to.equal('one, two, three');
-  });
-
-
   it("should be able to reference the original collection from inside the iterator", function() {
     var answer = null;
     _.each([1, 2, 3], function(num, index, arr){ if (arr.indexOf(num)>0) answer = true; });
