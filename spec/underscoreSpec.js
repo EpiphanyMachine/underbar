@@ -72,11 +72,6 @@ describe("last", function() {
     expect(result.join(', ')).to.equal('3, 4');
   });
 
-  it("should work well with map", function() {
-    var result = _.map([[1,2,3],[1,2,3]], _.last);
-    expect(result.join(', ')).to.equal('3, 3');
-  });
-
   it("handle a null value gracefully", function() {
     expect(_.last(null)).to.equal(undefined);
   });
@@ -97,11 +92,6 @@ describe("first", function() {
   it("should work on an arguments object", function() {
     var result = (function(){ return _.first(arguments, 2); })(4, 3, 2, 1);
     expect(result.join(', ')).to.equal('4, 3');
-  });
-
-  it("should work well with map", function() {
-    var result = _.map([[1,2,3],[1,2,3]], _.first);
-    expect(result.join(', ')).to.equal('1, 1');
   });
 
   it("should handle a null value gracefully", function() {
