@@ -1,55 +1,3 @@
-describe("each", function() {
-  it("should provide value and iteration count", function() {
-    _.each([1, 2, 3], function(num, i) {
-      expect(num).to.equal(i + 1);
-    });
-  });
-
-  it("should be able to reference the original collection from inside the iterator", function() {
-    var answer = null;
-    _.each([1, 2, 3], function(num, index, arr){ if (arr.indexOf(num)>0) answer = true; });
-    expect(answer).to.be(true);
-  });
-
-  it("should handle a null value gracefully", function() {
-    var answers = 0;
-    _.each(null, function(){ ++answers; });
-    expect(answers).to.equal(0);
-  });
-});
-
-describe("contains", function() {
-  it("should return true if a collection contains a user-specified value", function() {
-    expect(_.contains([1,2,3], 2)).to.equal(true);
-    expect(_.contains({moe:1, larry:3, curly:9}, 3)).to.equal(true);
-  });
-
-  it("should return false if a collection does not contain a user-specified value", function() {
-    expect(_.contains([1,3,9], 2)).to.equal(false);
-  });
-});
-
-describe("map", function() {
-  it("should apply a function to every value in an array", function() {
-    var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
-    expect(doubled.join(', ')).to.equal('2, 4, 6');
-  });
-
-  it("should handle a null value gracefully", function() {
-    var ifnull = _.map(null, function(){});
-    expect(Array.isArray(ifnull)).to.be(true);
-    expect(ifnull.length).to.equal(0);
-  });
-});
-
-describe("pluck", function() {
-  it("should return values contained at a user-defined property", function() {
-    var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
-    expect(_.pluck(people, 'name').join(', ')).to.equal('moe, curly');
-  });
-});
-
-
 describe("last", function() {
   it("should pull the last element from an array", function() {
     expect(_.last([1,2,3])).to.equal(3);
@@ -77,7 +25,6 @@ describe("last", function() {
   });
 });
 
-
 describe("first", function() {
   it("should be able to pull out the first element of an array", function() {
     expect(_.first([1,2,3])).to.equal(1);
@@ -99,6 +46,172 @@ describe("first", function() {
   });
 });
 
+describe("each", function() {
+  it("should provide value and iteration count", function() {
+    _.each([1, 2, 3], function(num, i) {
+      expect(num).to.equal(i + 1);
+    });
+  });
+
+  it("should be able to reference the original collection from inside the iterator", function() {
+    var answer = null;
+    _.each([1, 2, 3], function(num, index, arr){ if (arr.indexOf(num)>0) answer = true; });
+    expect(answer).to.be(true);
+  });
+
+  it("should handle a null value gracefully", function() {
+    var answers = 0;
+    _.each(null, function(){ ++answers; });
+    expect(answers).to.equal(0);
+  });
+});
+
+describe("indexOf", function() {
+  var numbers, num, index;
+
+  it("should be able to compute indexOf even when the native function is undefined", function() {
+    numbers = [1, 2, 3];
+    numbers.indexOf = null;
+
+    expect(_.indexOf(numbers, 2)).to.be.(1);
+  });
+
+  it("should work on an arguments object", function() {
+    var result = (function(){ return _.indexOf(arguments, 2); })(1, 2, 3);
+
+    expect(result).to.be(1);
+  });
+
+  it("should handle nulls properly", function() {
+    expect(_.indexOf(null, 2)).to.be(-1);
+  });
+
+  it("should not have 35 in the list", function() {
+    numbers = [10, 20, 30, 40, 50];
+    num = 35;
+    index = _.indexOf(numbers, num, true);
+
+    expect(index).to.be(-1);
+  });
+
+  it("should have 40 in the list", function() {
+    numbers = [10, 20, 30, 40, 50];
+    num = 40;
+    index = _.indexOf(numbers, num, true);
+
+    expect(index).to.be(3);
+  });
+
+  it("should have 40 in the list even when there are duplicates", function() {
+    numbers = [1, 40, 40, 40, 40, 40, 40, 40, 50, 60, 70];
+    num = 40;
+    index = _.indexOf(numbers, num, true);
+
+    expect(index).to.be(1);
+  });
+
+  it("should supports the fromIndex argument", function() {
+    numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
+    index = _.indexOf(numbers, 2, 5);
+
+    expect(index).to.be(7);
+  });
+});
+
+describe("filter", function() {
+  it("should return all even numbers in an array", function() {
+    var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 === 0; });
+    expect(evens.join(', ')).to.equal('2, 4, 6');
+  });
+
+  it("should return all odd numbers in an array", function() {
+    var odds = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 !== 0; });
+    expect(odds.join(', ')).to.equal('1, 3, 5');
+  });
+});
+
+describe("reject", function() {
+  it("should reject all even numbers", function() {
+    var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 === 0; });
+    expect(odds.join(', ')).to.equal('1, 3, 5');
+  });
+
+  it("should return all odd numbers", function() {
+    var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 !== 0; });
+    expect(evens.join(', ')).to.equal('2, 4, 6');
+  });
+});
+
+describe("uniq", function() {
+  it("should return all unique values contained in an unsorted array", function() {
+    var list = [1, 2, 1, 3, 1, 4];
+    expect(_.uniq(list).join(', ')).to.equal('1, 2, 3, 4');
+  });
+
+  it("should handle iterators that work with a sorted array", function() {
+    var iterator = function(value) { return value +1; };
+    var list = [1, 2, 2, 3, 4, 4];
+    expect(_.uniq(list, true, iterator).join(', ')).to.equal('1, 2, 3, 4');
+  });
+
+  it("should work on an arguments object", function() {
+    var result = (function(){ return _.uniq(arguments); })(1, 2, 1, 3, 1, 4);
+    expect(result.join(', ')).to.equal('1, 2, 3, 4');
+  });
+});
+
+describe("map", function() {
+  it("should apply a function to every value in an array", function() {
+    var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
+    expect(doubled.join(', ')).to.equal('2, 4, 6');
+  });
+
+  it("should handle a null value gracefully", function() {
+    var ifnull = _.map(null, function(){});
+    expect(Array.isArray(ifnull)).to.be(true);
+    expect(ifnull.length).to.equal(0);
+  });
+});
+
+describe("pluck", function() {
+  it("should return values contained at a user-defined property", function() {
+    var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
+    expect(_.pluck(people, 'name').join(', ')).to.equal('moe, curly');
+  });
+});
+
+describe("invoke", function() {
+  var list;
+
+  beforeEach(function() {
+    list = [[5, 1, 7], [3, 2, 1]];
+  });
+
+  describe("normal invoke", function() {
+    var result = _.invoke(list, 'sort');
+
+    it("should sort the first array", function() {
+      expect(result[0].join(', ')).to.be('1, 5, 7');
+    });
+
+    it("should sort the second array", function() {
+      expect(result[1].join(', ')).to.be('1, 2, 3');
+    });
+  });
+
+  describe("invoke with function reference", function() {
+    var result = _.invoke(list, Array.prototype.sort);
+
+    it("should sort the first array", function() {
+      expect(result[0].join(', ')).to.be('1, 5, 7');
+    });
+
+    it("should sort the second array", function() {
+      expect(result[1].join(', ')).to.be('1, 2, 3');
+    });
+  });
+});
+
 describe("reduce", function() {
   it("should be able to sum up an array", function() {
     var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; }, 0);
@@ -115,27 +228,14 @@ describe("reduce", function() {
   });
 });
 
-describe("select", function() {
-  it("should select each even number in an array", function() {
-    var evens = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 === 0; });
-    expect(evens.join(', ')).to.equal('2, 4, 6');
+describe("contains", function() {
+  it("should return true if a collection contains a user-specified value", function() {
+    expect(_.contains([1,2,3], 2)).to.equal(true);
+    expect(_.contains({moe:1, larry:3, curly:9}, 3)).to.equal(true);
   });
 
-  it("should select each odd number in an array", function() {
-    var odds = _.select([1, 2, 3, 4, 5, 6], function(num){ return num % 2 !== 0; });
-    expect(odds.join(', ')).to.equal('1, 3, 5');
-  });
-});
-
-describe("reject", function() {
-  it("should reject all even numbers", function() {
-    var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 === 0; });
-    expect(odds.join(', ')).to.equal('1, 3, 5');
-  });
-
-  it("should return all odd numbers", function() {
-    var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 !== 0; });
-    expect(evens.join(', ')).to.equal('2, 4, 6');
+  it("should return false if a collection does not contain a user-specified value", function() {
+    expect(_.contains([1,3,9], 2)).to.equal(false);
   });
 });
 
@@ -221,21 +321,62 @@ describe("any", function() {
   });
 });
 
-describe("uniq", function() {
-  it("should return all unique values contained in an unsorted array", function() {
-    var list = [1, 2, 1, 3, 1, 4];
-    expect(_.uniq(list).join(', ')).to.equal('1, 2, 3, 4');
+describe("extend", function() {
+  var result;
+
+  afterEach(function() {
+    result = null;
   });
 
-  it("should handle iterators that work with a sorted array", function() {
-    var iterator = function(value) { return value +1; };
-    var list = [1, 2, 2, 3, 4, 4];
-    expect(_.uniq(list, true, iterator).join(', ')).to.equal('1, 2, 3, 4');
+  it("should extend an object with the attributes of another", function() {
+    expect(_.extend({}, {a:'b'}).a).to.equal('b');
   });
 
-  it("should work on an arguments object", function() {
-    var result = (function(){ return _.uniq(arguments); })(1, 2, 1, 3, 1, 4);
-    expect(result.join(', ')).to.equal('1, 2, 3, 4');
+  it("should override properties found on the destination", function() {
+    expect(_.extend({a:'x'}, {a:'b'}).a).to.equal('b');
+  });
+
+  it("should not override properties not found in the source", function() {
+    expect(_.extend({x:'x'}, {a:'b'}).x).to.equal('x');
+  });
+
+  it("should extend from multiple source objects", function() {
+    result = _.extend({x:'x'}, {a:'a'}, {b:'b'});
+    expect(result.x == 'x' && result.a == 'a' && result.b == 'b').to.be(true);
+  });
+
+  it("in the case of a conflict, it should use the last property's values when extending from multiple source objects", function() {
+    result = _.extend({x:'x'}, {a:'a', x:2}, {a:'b'});
+    expect(result.x == 2 && result.a == 'b').to.be(true);
+  });
+
+  it("should not copy undefined values", function() {
+    result = _.extend({}, {a: void 0, b: null});
+    expect(result.hasOwnProperty('a') && result.hasOwnProperty('b')).to.be(true);
+  });
+});
+
+describe("defaults", function() {
+  var result, options;
+
+  beforeEach(function(){
+    options = {zero: 0, one: 1, empty: "", nan: NaN, string: "string"};
+    _.defaults(options, {zero: 1, one: 10, twenty: 20}, {empty: "full"}, {nan: "nan"}, {word: "word"}, {word: "dog"});
+  });
+
+  it("should apply a value when one doesn't already exist on the target", function() {
+    expect(options.zero).to.equal(0);
+    expect(options.one).to.equal(1);
+    expect(options.twenty).to.equal(20);
+  });
+
+  it("should not apply a value if one already exist on the target", function() {
+    expect(options.empty).to.equal("");
+    expect(isNaN(options.nan)).to.equal(true);
+  });
+
+  it("if two identical values are passed in, the first one wins", function() {
+    expect(options.word).to.equal("word");
   });
 });
 
@@ -299,74 +440,20 @@ describe("delay", function() {
   });
 });
 
-describe("extend", function() {
-  var result;
+describe("shuffle", function() {
+  var numbers, shuffled;
 
-  afterEach(function() {
-    result = null;
+  beforeEach(function() {
+    numbers = _.range(10);
+    shuffled = _.shuffle(numbers).sort();
   });
 
-  it("should extend an object with the attributes of another", function() {
-    expect(_.extend({}, {a:'b'}).a).to.equal('b');
+  it("should not modify the original object", function() {
+    expect(numbers).to.eql(shuffled);
   });
 
-  it("should override properties found on the destination", function() {
-    expect(_.extend({a:'x'}, {a:'b'}).a).to.equal('b');
-  });
-
-  it("should not override properties not found in the source", function() {
-    expect(_.extend({x:'x'}, {a:'b'}).x).to.equal('x');
-  });
-
-  it("should extend from multiple source objects", function() {
-    result = _.extend({x:'x'}, {a:'a'}, {b:'b'});
-    expect(result.x == 'x' && result.a == 'a' && result.b == 'b').to.be(true);
-  });
-
-  it("in the case of a conflict, it should use the last property's values when extending from multiple source objects", function() {
-    result = _.extend({x:'x'}, {a:'a', x:2}, {a:'b'});
-    expect(result.x == 2 && result.a == 'b').to.be(true);
-  });
-
-  it("should not copy undefined values", function() {
-    result = _.extend({}, {a: void 0, b: null});
-    expect(result.hasOwnProperty('a') && result.hasOwnProperty('b')).to.be(true);
-  });
-});
-
-describe("defaults", function() {
-  var result, options;
-
-  beforeEach(function(){
-    options = {zero: 0, one: 1, empty: "", nan: NaN, string: "string"};
-    _.defaults(options, {zero: 1, one: 10, twenty: 20}, {empty: "full"}, {nan: "nan"}, {word: "word"}, {word: "dog"});
-  });
-
-  it("should apply a value when one doesn't already exist on the target", function() {
-    expect(options.zero).to.equal(0);
-    expect(options.one).to.equal(1);
-    expect(options.twenty).to.equal(20);
-  });
-
-  it("should not apply a value if one already exist on the target", function() {
-    expect(options.empty).to.equal("");
-    expect(isNaN(options.nan)).to.equal(true);
-  });
-
-  it("if two identical values are passed in, the first one wins", function() {
-    expect(options.word).to.equal("word");
-  });
-});
-
-describe("flatten", function() {
-  it("can flatten nested arrays", function() {
-    var nestedArray = [1, [2], [3, [[[4]]]]];
-    expect(JSON.stringify(_.flatten(nestedArray))).to.equal('[1,2,3,4]');
-  });
-
-  it("works on an arguments object", function() {
-    var result = (function(){ return _.flatten(arguments); })(1, [2], [3, [[[4]]]]);
-    expect(JSON.stringify(result)).to.equal('[1,2,3,4]');
+  it("should return an array that contains the same members before and after shuffle", function() {
+    expect(shuffled.join(',')).to.equal(numbers.join(','));
   });
 });
 
@@ -393,6 +480,7 @@ describe("sortBy", function() {
       this.x = x;
       this.y = y;
     }
+
     var collection = [
       new Pair(1, 1), new Pair(1, 2),
       new Pair(1, 3), new Pair(1, 4),
@@ -404,9 +492,11 @@ describe("sortBy", function() {
       new Pair(undefined, 3), new Pair(undefined, 4),
       new Pair(undefined, 5), new Pair(undefined, 6)
     ];
+
     var actual = _.sortBy(collection, function(pair) {
       return pair.x;
     });
+
     expect(actual).to.eql(collection);
   });
 });
@@ -419,7 +509,18 @@ describe("zip", function() {
   });
 });
 
-//TODO: TEST ALL THESE
+describe("flatten", function() {
+  it("can flatten nested arrays", function() {
+    var nestedArray = [1, [2], [3, [[[4]]]]];
+    expect(JSON.stringify(_.flatten(nestedArray))).to.equal('[1,2,3,4]');
+  });
+
+  it("works on an arguments object", function() {
+    var result = (function(){ return _.flatten(arguments); })(1, [2], [3, [[[4]]]]);
+    expect(JSON.stringify(result)).to.equal('[1,2,3,4]');
+  });
+});
+
 describe("intersection", function() {
   var stooges, leaders;
 
@@ -428,7 +529,6 @@ describe("intersection", function() {
     leaders = ['moe', 'groucho'];
   });
 
-  // TODO: simplify language
   it("should take the set intersection of two arrays", function() {
     expect(_.intersection(stooges, leaders).join('')).to.be('moe');
   });
@@ -448,22 +548,5 @@ describe("difference", function() {
   it("should return the difference between three arrays", function() {
     var result = _.difference([1, 2, 3, 4], [2, 30, 40], [1, 11, 111]);
     expect(result.join(' ')).to.be('3 4');
-  });
-});
-
-describe("shuffle", function() {
-  var numbers, shuffled;
-
-  beforeEach(function() {
-    numbers = _.range(10);
-    shuffled = _.shuffle(numbers).sort();
-  });
-
-  it("should not modify the original object", function() {
-    expect(numbers).to.eql(shuffled);
-  });
-
-  it("should return an array that contains the same members before and after shuffle", function() {
-    expect(shuffled.join(',')).to.equal(numbers.join(','));
   });
 });
