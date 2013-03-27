@@ -16,7 +16,9 @@ describe("last", function() {
   });
 
   it("should work on an arguments object", function() {
-    var result = (function(){ return _.last(arguments, 2); })(1, 2, 3, 4);
+    var iterator = function() { return _.last(arguments, 2); };
+    var result = iterator(1, 2, 3, 4);
+
     expect(result).to.eql([3, 4]);
   });
 
@@ -37,7 +39,9 @@ describe("first", function() {
   });
 
   it("should work on an arguments object", function() {
-    var result = (function(){ return _.first(arguments, 2); })(4, 3, 2, 1);
+    var iterator = function() { return _.first(arguments, 2); };
+    var result = iterator(4, 3, 2, 1);
+
     expect(result).to.eql([4, 3]);
   });
 
@@ -51,7 +55,7 @@ describe("each", function() {
     var letters = ['a', 'b', 'c']
     var iterations = [];
 
-    _.each(letters, function(letter, index, collection){
+    _.each(letters, function(letter, index, collection) {
       iterations.push([letter, index, collection]);
     });
 
@@ -64,7 +68,8 @@ describe("each", function() {
 
   xit("should handle a null value gracefully", function() {
     var answers = 0;
-    _.each(null, function(){ ++answers; });
+    _.each(null, function() { ++answers; });
+
     expect(answers).to.equal(0);
   });
 });
@@ -80,7 +85,8 @@ describe("indexOf", function() {
   });
 
   it("should work on an arguments object", function() {
-    var result = (function(){ return _.indexOf(arguments, 2); })(1, 2, 3);
+    var iterator = function() { return _.indexOf(arguments, 2); };
+    var result = iterator(1, 2, 3);
 
     expect(result).to.be(1);
   });
@@ -123,24 +129,32 @@ describe("indexOf", function() {
 
 describe("filter", function() {
   it("should return all even numbers in an array", function() {
-    var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 === 0; });
+    var isEven = function(num) { return num % 2 === 0; };
+    var evens = _.filter([1, 2, 3, 4, 5, 6], isEven);
+
     expect(evens).to.eql([2, 4, 6]);
   });
 
   it("should return all odd numbers in an array", function() {
-    var odds = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 !== 0; });
+    var isOdd = function(num) { return num % 2 !== 0; };
+    var odds = _.filter([1, 2, 3, 4, 5, 6], isOdd);
+
     expect(odds).to.eql([1, 3, 5]);
   });
 });
 
 describe("reject", function() {
   it("should reject all even numbers", function() {
-    var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 === 0; });
+    var isEven = function(num) { return num % 2 === 0; };
+    var odds = _.reject([1, 2, 3, 4, 5, 6], isEven);
+
     expect(odds).to.eql([1, 3, 5]);
   });
 
-  it("should return all odd numbers", function() {
-    var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 !== 0; });
+  it("should reject all odd numbers", function() {
+    var isOdd = function(num) { return num % 2 !== 0; };
+    var evens = _.reject([1, 2, 3, 4, 5, 6], isOdd);
+
     expect(evens).to.eql([2, 4, 6]);
   });
 });
@@ -148,29 +162,34 @@ describe("reject", function() {
 describe("uniq", function() {
   it("should return all unique values contained in an unsorted array", function() {
     var list = [1, 2, 1, 3, 1, 4];
+
     expect(_.uniq(list)).to.eql([1, 2, 3, 4]);
   });
 
   it("should handle iterators that work with a sorted array", function() {
     var iterator = function(value) { return value +1; };
     var list = [1, 2, 2, 3, 4, 4];
+
     expect(_.uniq(list, true, iterator)).to.eql([1, 2, 3, 4]);
   });
 
   it("should work on an arguments object", function() {
-    var result = (function(){ return _.uniq(arguments); })(1, 2, 1, 3, 1, 4);
+    var result = (function() { return _.uniq(arguments); })(1, 2, 1, 3, 1, 4);
+
     expect(result).to.eql([1, 2, 3, 4]);
   });
 });
 
 describe("map", function() {
   it("should apply a function to every value in an array", function() {
-    var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
+    var doubled = _.map([1, 2, 3], function(num) { return num * 2; });
+
     expect(doubled).to.eql([2, 4, 6]);
   });
 
   xit("should handle a null value gracefully", function() {
-    var ifnull = _.map(null, function(){});
+    var ifnull = _.map(null, function() {});
+
     expect(Array.isArray(ifnull)).to.be(true);
     expect(ifnull.length).to.equal(0);
   });
@@ -179,6 +198,7 @@ describe("map", function() {
 describe("pluck", function() {
   it("should return values contained at a user-defined property", function() {
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
+
     expect(_.pluck(people, 'name')).to.eql(['moe', 'curly']);
   });
 });
@@ -220,17 +240,20 @@ describe("invoke with function reference", function() {
 
 describe("reduce", function() {
   it("should be able to sum up an array", function() {
-    var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; }, 0);
+    var callback = function(sum, num) {return sum + num; };
+    var sum = _.reduce([1, 2, 3], callback, 0);
+
     expect(sum).to.equal(6);
   });
 
   it("should handle a null value gracefully (as long as the user provides an initial value)", function() {
-    var sum = _.reduce([1, 2, 3], function(sum, num){ return sum + num; });
+    var sum = _.reduce([1, 2, 3], function(sum, num) { return sum + num; });
+
     expect(sum).to.equal(6);
   });
 
   it("should handle a null value gracefully (as long as the user provides an initial value)", function() {
-    expect(_.reduce(null, function(){}, 138)).to.equal(138);
+    expect(_.reduce(null, function() {}, 138)).to.equal(138);
   });
 });
 
@@ -246,36 +269,39 @@ describe("contains", function() {
 });
 
 describe("every", function() {
+  var getValue = function(i) { return i; };
+  var isEven = function(num) { return num % 2 === 0; };
+
   it("should handle an empty set", function() {
-    expect( _.every([], function(i){return i;}) ).to.equal(true);
+    expect(_.every([], getValue) ).to.equal(true);
   });
 
   it("should handle a set that contains only true values", function() {
-    expect( _.every([true, true, true], function(i){return i;}) ).to.equal(true);
+    expect(_.every([true, true, true], getValue)).to.equal(true);
   });
 
   it("should handle a set that contains one false value", function() {
-    expect( _.every([true, false, true], function(i){return i;}) ).to.equal(false);
+    expect(_.every([true, false, true], getValue)).to.equal(false);
   });
 
   it("should handle a set that contains even numbers", function() {
-    expect( _.every([0, 10, 28], function(num){ return num % 2 === 0; }) ).to.equal(true);
+    expect(_.every([0, 10, 28], isEven)).to.equal(true);
   });
 
   it("should handle a set that contains an odd number", function() {
-    expect( _.every([0, 11, 28], function(num){ return num % 2 === 0; }) ).to.equal(false);
+    expect(_.every([0, 11, 28], isEven)).to.equal(false);
   });
 
   it("should cast to boolean true", function() {
-    expect( _.every([1], function(i){return i;}) ).to.equal(true);
+    expect(_.every([1], getValue)).to.equal(true);
   });
 
   it("should cast to boolean false", function() {
-    expect( _.every([0], function(i){return i;}) ).to.equal(false);
+    expect(_.every([0], getValue)).to.equal(false);
   });
 
   it("should work with an array that contains several undefined values", function() {
-    expect( _.every([undefined, undefined, undefined], function(i){return i;}) ).to.equal(false);
+    expect(_.every([undefined, undefined, undefined], getValue)).to.equal(false);
   });
 });
 
@@ -311,19 +337,27 @@ describe("any", function() {
   });
 
   it("should handle a set that contains all odd numbers", function() {
-    expect(_.any([1, 11, 29], function(num){ return num % 2 === 0; })).to.equal(false);
+    var isEven = function(num) { return num % 2 === 0; };
+
+    expect(_.any([1, 11, 29], isEven)).to.equal(false);
   });
 
   it("should handle a set that contains an even number", function() {
-    expect(_.any([1, 10, 29], function(num){ return num % 2 === 0; })).to.equal(true);
+    var isEven = function(num) { return num % 2 === 0; };
+
+    expect(_.any([1, 10, 29], isEven)).to.equal(true);
   });
 
   it("should handle casting to boolean - true", function() {
-    expect(_.any([1], function(i){return i;})).to.equal(true);
+    var getValue = function(i) { return i; };
+
+    expect(_.any([1], getValue)).to.equal(true);
   });
 
   it("should handle casting to boolean - false", function() {
-    expect(_.any([0], function(i){return i;})).to.equal(false);
+    var getValue = function(i) { return i; };
+
+    expect(_.any([0], getValue)).to.equal(false);
   });
 });
 
@@ -348,16 +382,19 @@ describe("extend", function() {
 
   it("should extend from multiple source objects", function() {
     result = _.extend({x:'x'}, {a:'a'}, {b:'b'});
+
     expect(result.x == 'x' && result.a == 'a' && result.b == 'b').to.be(true);
   });
 
   it("in the case of a conflict, it should use the last property's values when extending from multiple source objects", function() {
     result = _.extend({x:'x'}, {a:'a', x:2}, {a:'b'});
+
     expect(result.x == 2 && result.a == 'b').to.be(true);
   });
 
   it("should not copy undefined values", function() {
     result = _.extend({}, {a: void 0, b: null});
+
     expect(result.hasOwnProperty('a') && result.hasOwnProperty('b')).to.be(true);
   });
 });
@@ -365,7 +402,7 @@ describe("extend", function() {
 describe("defaults", function() {
   var result, options;
 
-  beforeEach(function(){
+  beforeEach(function() {
     options = {zero: 0, one: 1, empty: "", nan: NaN, string: "string"};
     _.defaults(options, {zero: 1, one: 10, twenty: 20}, {empty: "full"}, {nan: "nan"}, {word: "word"}, {word: "dog"});
   });
@@ -389,7 +426,7 @@ describe("defaults", function() {
 describe("once", function() {
   it("should only run a user-defined function if it hasn't been run before", function() {
     var num = 0;
-    var increment = _.once(function(){ num++; });
+    var increment = _.once(function() { num++; });
     increment();
     increment();
 
@@ -400,9 +437,11 @@ describe("once", function() {
 describe("memoize", function() {
   it("a memoized function should produce the same result when called with the same arguments", function() {
     var fib = function(n) {
-      return n < 2 ? n : fib(n - 1) + fib(n - 2);
+      return n < 2 ? n
+                   : fib(n - 1) + fib(n - 2);
     };
     var fastFib = _.memoize(fib);
+
     expect(fib(10)).to.equal(55);
     expect(fastFib(10)).to.equal(55);
   });
@@ -412,6 +451,7 @@ describe("memoize", function() {
       return str;
     };
     var fastO = _.memoize(o);
+
     expect(o('toString')).to.equal('toString');
     expect(fastO('toString')).to.equal('toString');
   });
@@ -447,14 +487,10 @@ describe("delay", function() {
 });
 
 describe("shuffle", function() {
-  var numbers, shuffled;
-
-  beforeEach(function() {
-    numbers = _.range(10);
-    shuffled = _.shuffle(numbers);
-  });
-
   it("should not modify the original object", function() {
+    var numbers = _.range(10);
+    var shuffled = _.shuffle(numbers);
+
     expect(shuffled.sort()).to.eql(numbers);
   });
 });
@@ -462,7 +498,10 @@ describe("shuffle", function() {
 describe("sortBy", function() {
   it("should sort by age", function() {
     var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
-    people = _.sortBy(people, function(person){ return person.age; });
+    people = _.sortBy(people, function(person) {
+      return person.age;
+    });
+
     expect(_.pluck(people, 'name')).to.eql(['moe', 'curly']);
   });
 
@@ -476,6 +515,7 @@ describe("sortBy", function() {
   it("should sort by length", function() {
     var list = ["one", "two", "three", "four", "five"];
     var sorted = _.sortBy(list, 'length');
+
     expect(sorted).to.eql(['one', 'two', 'four', 'five', 'three']);
   });
 
@@ -509,6 +549,7 @@ describe("zip", function() {
   it("should zip together arrays of different lengths", function() {
     var names = ['moe', 'larry', 'curly'], ages = [30, 40, 50], leaders = [true];
     var stooges = _.zip(names, ages, leaders);
+
     expect(String(stooges)).to.equal('moe,30,true,larry,40,,curly,50,');
   });
 });
@@ -516,11 +557,15 @@ describe("zip", function() {
 describe("flatten", function() {
   it("can flatten nested arrays", function() {
     var nestedArray = [1, [2], [3, [[[4]]]]];
-    expect(JSON.stringify(_.flatten(nestedArray))).to.equal('[1,2,3,4]');
+    var result = JSON.stringify(_.flatten(nestedArray));
+
+    expect(result).to.equal('[1,2,3,4]');
   });
 
   it("works on an arguments object", function() {
-    var result = (function(){ return _.flatten(arguments); })(1, [2], [3, [[[4]]]]);
+    var iterator = function() { return _.flatten(arguments); };
+    var result = iterator(1, [2], [3, [[[4]]]]);
+
     expect(JSON.stringify(result)).to.equal('[1,2,3,4]');
   });
 });
@@ -528,7 +573,7 @@ describe("flatten", function() {
 describe("intersection", function() {
   var stooges, leaders;
 
-  beforeEach(function(){
+  beforeEach(function() {
     stooges = ['moe', 'curly', 'larry'];
     leaders = ['moe', 'groucho'];
   });
@@ -538,7 +583,9 @@ describe("intersection", function() {
   });
 
   it("should work on an arguments object", function() {
-    var result = (function(){ return _.intersection(arguments, leaders); })('moe', 'curly', 'larry');
+    var iterator = function() { return _.intersection(arguments, leaders); };
+    var result = iterator('moe', 'curly', 'larry');
+
     expect(result).to.eql(['moe']);
   });
 });
@@ -546,11 +593,13 @@ describe("intersection", function() {
 describe("difference", function() {
   it("should return the difference between two arrays", function() {
     var diff = _.difference([1,2,3], [2,30,40]);
+
     expect(diff).to.eql([1,3]);
   });
 
   it("should return the difference between three arrays", function() {
     var result = _.difference([1, 2, 3, 4], [2, 30, 40], [1, 11, 111]);
+
     expect(result).to.eql([3, 4]);
   });
 });
