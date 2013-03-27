@@ -3,24 +3,24 @@ describe("last", function() {
     expect(_.last([1,2,3])).to.equal(3);
   });
 
-  it("should handle a user-defined index", function() {
-    expect(_.last([1,2,3], 0).join(', ')).to.equal('');
+  it("should accept an index argument", function() {
+    expect(_.last([1,2,3], 2)).to.eql([2, 3]);
   });
 
-  it("should be able to ", function() {
-    expect(_.last([1,2,3], 2).join(', ')).to.equal('2, 3');
+  it("should return nothing if zero is passed in as the index", function() {
+    expect(_.last([1,2,3], 0)).to.eql([]);
   });
 
-  it("should be able to pull the last element from an array", function() {
-    expect(_.last([1,2,3], 5).join(', ')).to.equal('1, 2, 3');
+  it("should return all the array's elements if the index argument is larger than the length of the array", function() {
+    expect(_.last([1,2,3], 5)).to.eql([1, 2, 3]);
   });
 
   it("should work on an arguments object", function() {
     var result = (function(){ return _.last(arguments, 2); })(1, 2, 3, 4);
-    expect(result.join(', ')).to.equal('3, 4');
+    expect(result).to.eql([3, 4]);
   });
 
-  it("handle a null value gracefully", function() {
+  xit("handle a null value gracefully", function() {
     expect(_.last(null)).to.equal(undefined);
   });
 });
@@ -31,14 +31,14 @@ describe("first", function() {
   });
 
   it("should be able to accept a user-defined index", function() {
-    expect(_.first([1,2,3], 0).join(', ')).to.equal('');
-    expect(_.first([1,2,3], 2).join(', ')).to.equal('1, 2');
-    expect(_.first([1,2,3], 5).join(', ')).to.equal('1, 2, 3');
+    expect(_.first([1,2,3], 0)).to.eql([]);
+    expect(_.first([1,2,3], 2)).to.eql([1, 2]);
+    expect(_.first([1,2,3], 5)).to.eql([1, 2, 3]);
   });
 
   it("should work on an arguments object", function() {
     var result = (function(){ return _.first(arguments, 2); })(4, 3, 2, 1);
-    expect(result.join(', ')).to.equal('4, 3');
+    expect(result).to.eql([4, 3]);
   });
 
   it("should handle a null value gracefully", function() {
@@ -48,18 +48,21 @@ describe("first", function() {
 
 describe("each", function() {
   it("should provide value and iteration count", function() {
-    _.each([1, 2, 3], function(num, i) {
-      expect(num).to.equal(i + 1);
+    var letters = ['a', 'b', 'c']
+    var iterations = [];
+
+    _.each(letters, function(letter, index, collection){
+      iterations.push([letter, index, collection]);
     });
+
+    expect(iterations).to.eql([
+      ['a', 0, letters],
+      ['b', 1, letters],
+      ['c', 2, letters],
+    ]);
   });
 
-  it("should be able to reference the original collection from inside the iterator", function() {
-    var answer = null;
-    _.each([1, 2, 3], function(num, index, arr){ if (arr.indexOf(num)>0) answer = true; });
-    expect(answer).to.be(true);
-  });
-
-  it("should handle a null value gracefully", function() {
+  xit("should handle a null value gracefully", function() {
     var answers = 0;
     _.each(null, function(){ ++answers; });
     expect(answers).to.equal(0);
@@ -73,7 +76,7 @@ describe("indexOf", function() {
     numbers = [1, 2, 3];
     numbers.indexOf = null;
 
-    expect(_.indexOf(numbers, 2)).to.be.(1);
+    expect(_.indexOf(numbers, 2)).to.be(1);
   });
 
   it("should work on an arguments object", function() {
@@ -110,7 +113,7 @@ describe("indexOf", function() {
     expect(index).to.be(1);
   });
 
-  it("should supports the fromIndex argument", function() {
+  it("should support the fromIndex argument", function() {
     numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
     index = _.indexOf(numbers, 2, 5);
 
@@ -121,52 +124,52 @@ describe("indexOf", function() {
 describe("filter", function() {
   it("should return all even numbers in an array", function() {
     var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 === 0; });
-    expect(evens.join(', ')).to.equal('2, 4, 6');
+    expect(evens).to.eql([2, 4, 6]);
   });
 
   it("should return all odd numbers in an array", function() {
     var odds = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 !== 0; });
-    expect(odds.join(', ')).to.equal('1, 3, 5');
+    expect(odds).to.eql([1, 3, 5]);
   });
 });
 
 describe("reject", function() {
   it("should reject all even numbers", function() {
     var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 === 0; });
-    expect(odds.join(', ')).to.equal('1, 3, 5');
+    expect(odds).to.eql([1, 3, 5]);
   });
 
   it("should return all odd numbers", function() {
     var evens = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 !== 0; });
-    expect(evens.join(', ')).to.equal('2, 4, 6');
+    expect(evens).to.eql([2, 4, 6]);
   });
 });
 
 describe("uniq", function() {
   it("should return all unique values contained in an unsorted array", function() {
     var list = [1, 2, 1, 3, 1, 4];
-    expect(_.uniq(list).join(', ')).to.equal('1, 2, 3, 4');
+    expect(_.uniq(list)).to.eql([1, 2, 3, 4]);
   });
 
   it("should handle iterators that work with a sorted array", function() {
     var iterator = function(value) { return value +1; };
     var list = [1, 2, 2, 3, 4, 4];
-    expect(_.uniq(list, true, iterator).join(', ')).to.equal('1, 2, 3, 4');
+    expect(_.uniq(list, true, iterator)).to.eql([1, 2, 3, 4]);
   });
 
   it("should work on an arguments object", function() {
     var result = (function(){ return _.uniq(arguments); })(1, 2, 1, 3, 1, 4);
-    expect(result.join(', ')).to.equal('1, 2, 3, 4');
+    expect(result).to.eql([1, 2, 3, 4]);
   });
 });
 
 describe("map", function() {
   it("should apply a function to every value in an array", function() {
     var doubled = _.map([1, 2, 3], function(num){ return num * 2; });
-    expect(doubled.join(', ')).to.equal('2, 4, 6');
+    expect(doubled).to.eql([2, 4, 6]);
   });
 
-  it("should handle a null value gracefully", function() {
+  xit("should handle a null value gracefully", function() {
     var ifnull = _.map(null, function(){});
     expect(Array.isArray(ifnull)).to.be(true);
     expect(ifnull.length).to.equal(0);
@@ -176,39 +179,42 @@ describe("map", function() {
 describe("pluck", function() {
   it("should return values contained at a user-defined property", function() {
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
-    expect(_.pluck(people, 'name').join(', ')).to.equal('moe, curly');
+    expect(_.pluck(people, 'name')).to.eql(['moe', 'curly']);
   });
 });
 
 describe("invoke", function() {
-  var list;
+  var list, result;
 
   beforeEach(function() {
     list = [[5, 1, 7], [3, 2, 1]];
+    result = _.invoke(list, 'sort');
   });
 
-  describe("normal invoke", function() {
-    var result = _.invoke(list, 'sort');
-
-    it("should sort the first array", function() {
-      expect(result[0].join(', ')).to.be('1, 5, 7');
-    });
-
-    it("should sort the second array", function() {
-      expect(result[1].join(', ')).to.be('1, 2, 3');
-    });
+  it("should sort the first array", function() {
+    expect(result[0]).to.eql([1, 5, 7]);
   });
 
-  describe("invoke with function reference", function() {
-    var result = _.invoke(list, Array.prototype.sort);
+  it("should sort the second array", function() {
+    expect(result[1]).to.eql([1, 2, 3]);
+  });
+});
 
-    it("should sort the first array", function() {
-      expect(result[0].join(', ')).to.be('1, 5, 7');
-    });
 
-    it("should sort the second array", function() {
-      expect(result[1].join(', ')).to.be('1, 2, 3');
-    });
+describe("invoke with function reference", function() {
+  var list, result;
+
+  beforeEach(function() {
+    list = [[5, 1, 7], [3, 2, 1]];
+    result = _.invoke(list, Array.prototype.sort);
+  });
+
+  it("should sort the first array", function() {
+    expect(result[0]).to.eql([1, 5, 7]);
+  });
+
+  it("should sort the second array", function() {
+    expect(result[1]).to.eql([1, 2, 3]);
   });
 });
 
@@ -445,15 +451,11 @@ describe("shuffle", function() {
 
   beforeEach(function() {
     numbers = _.range(10);
-    shuffled = _.shuffle(numbers).sort();
+    shuffled = _.shuffle(numbers);
   });
 
   it("should not modify the original object", function() {
-    expect(numbers).to.eql(shuffled);
-  });
-
-  it("should return an array that contains the same members before and after shuffle", function() {
-    expect(shuffled.join(',')).to.equal(numbers.join(','));
+    expect(shuffled.sort()).to.eql(numbers);
   });
 });
 
@@ -461,18 +463,20 @@ describe("sortBy", function() {
   it("should sort by age", function() {
     var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
     people = _.sortBy(people, function(person){ return person.age; });
-    expect(_.pluck(people, 'name').join(', ')).to.equal('moe, curly');
+    expect(_.pluck(people, 'name')).to.eql(['moe', 'curly']);
   });
 
   it("should handle undefined values", function() {
     var list = [undefined, 4, 1, undefined, 3, 2];
-    expect(_.sortBy(list, function(i){return i;}).join(',')).to.equal('1,2,3,4,,');
+    var result = _.sortBy(list, function(i) { return i; });
+
+    expect(result).to.eql([1, 2, 3, 4, undefined, undefined]);
   });
 
   it("should sort by length", function() {
     var list = ["one", "two", "three", "four", "five"];
     var sorted = _.sortBy(list, 'length');
-    expect(sorted.join(' ')).to.equal('one two four five three');
+    expect(sorted).to.eql(['one', 'two', 'four', 'five', 'three']);
   });
 
   it("should produce results that change the order of the list as little as possible", function() {
@@ -530,23 +534,23 @@ describe("intersection", function() {
   });
 
   it("should take the set intersection of two arrays", function() {
-    expect(_.intersection(stooges, leaders).join('')).to.be('moe');
+    expect(_.intersection(stooges, leaders)).to.eql(['moe']);
   });
 
   it("should work on an arguments object", function() {
     var result = (function(){ return _.intersection(arguments, leaders); })('moe', 'curly', 'larry');
-    expect(result.join('')).to.be('moe');
+    expect(result).to.eql(['moe']);
   });
 });
 
 describe("difference", function() {
   it("should return the difference between two arrays", function() {
-    var result = _.difference([1, 2, 3], [2, 30, 40]);
-    expect(result.join(' ')).to.be('1 3');
+    var diff = _.difference([1,2,3], [2,30,40]);
+    expect(diff).to.eql([1,3]);
   });
 
   it("should return the difference between three arrays", function() {
     var result = _.difference([1, 2, 3, 4], [2, 30, 40], [1, 11, 111]);
-    expect(result.join(' ')).to.be('3 4');
+    expect(result).to.eql([3, 4]);
   });
 });
