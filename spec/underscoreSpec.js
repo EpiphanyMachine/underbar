@@ -359,9 +359,9 @@ describe("extend", function() {
   });
 
   it("in the case of a conflict, it should use the last property's values when extending from multiple source objects", function() {
-    var result = _.extend({x:'x'}, {a:'a', x:2}, {a:'b'});
+    var result = _.extend({x:'x'}, {a:'a', x:2}, {a:1});
 
-    expect(result).to.eql({x:1, a:2, b:3});
+    expect(result).to.eql({x:2, a:1});
   });
 
   it("should not copy undefined values", function() {
