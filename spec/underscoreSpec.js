@@ -39,10 +39,9 @@ describe("first", function() {
   });
 
   it("should work on an arguments object", function() {
-    var iterator = function() { return _.first(arguments, 2); };
-    var result = iterator(4, 3, 2, 1);
+    var args = function(){ return arguments; }(1,2,3);
 
-    expect(result).to.eql([4, 3]);
+    expect(_.first(args, 2)).to.eql([1,2]);
   });
 
   it("should handle a null value gracefully", function() {
@@ -204,36 +203,34 @@ describe("pluck", function() {
 });
 
 describe("invoke", function() {
-  var list, result;
-
-  beforeEach(function() {
-    list = [[5, 1, 7], [3, 2, 1]];
-    result = _.invoke(list, 'sort');
-  });
-
   it("should sort the first array", function() {
+    var list = [[5, 1, 7], [3, 2, 1]];
+    var result = _.invoke(list, 'sort');
+
     expect(result[0]).to.eql([1, 5, 7]);
   });
 
   it("should sort the second array", function() {
+    var list = [[5, 1, 7], [3, 2, 1]];
+    var result = _.invoke(list, 'sort');
+
     expect(result[1]).to.eql([1, 2, 3]);
   });
 });
 
 
 describe("invoke with function reference", function() {
-  var list, result;
-
-  beforeEach(function() {
-    list = [[5, 1, 7], [3, 2, 1]];
-    result = _.invoke(list, Array.prototype.sort);
-  });
-
   it("should sort the first array", function() {
+    var list = [[5, 1, 7], [3, 2, 1]];
+    var result = _.invoke(list, Array.prototype.sort);
+
     expect(result[0]).to.eql([1, 5, 7]);
   });
 
   it("should sort the second array", function() {
+    var list = [[5, 1, 7], [3, 2, 1]];
+    var result = _.invoke(list, Array.prototype.sort);
+
     expect(result[1]).to.eql([1, 2, 3]);
   });
 });
@@ -362,12 +359,6 @@ describe("any", function() {
 });
 
 describe("extend", function() {
-  var result;
-
-  afterEach(function() {
-    result = null;
-  });
-
   it("should extend an object with the attributes of another", function() {
     expect(_.extend({}, {a:'b'}).a).to.equal('b');
   });
@@ -381,19 +372,19 @@ describe("extend", function() {
   });
 
   it("should extend from multiple source objects", function() {
-    result = _.extend({x:'x'}, {a:'a'}, {b:'b'});
+    var result = _.extend({x:1}, {a:2}, {b:3});
 
-    expect(result.x == 'x' && result.a == 'a' && result.b == 'b').to.be(true);
+    expect(result.x == 1 && result.a == 2 && result.b == 3).to.be(true);
   });
 
   it("in the case of a conflict, it should use the last property's values when extending from multiple source objects", function() {
-    result = _.extend({x:'x'}, {a:'a', x:2}, {a:'b'});
+    var result = _.extend({x:'x'}, {a:'a', x:2}, {a:'b'});
 
-    expect(result.x == 2 && result.a == 'b').to.be(true);
+    expect(result).to.eql({x:1, a:2, b:3});
   });
 
   it("should not copy undefined values", function() {
-    result = _.extend({}, {a: void 0, b: null});
+    var result = _.extend({}, {a: void 0, b: null});
 
     expect(result.hasOwnProperty('a') && result.hasOwnProperty('b')).to.be(true);
   });
