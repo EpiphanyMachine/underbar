@@ -21,10 +21,6 @@ describe("last", function() {
 
     expect(result).to.eql([3, 4]);
   });
-
-  xit("handle a null value gracefully", function() {
-    expect(_.last(null)).to.equal(undefined);
-  });
 });
 
 describe("first", function() {
@@ -63,13 +59,6 @@ describe("each", function() {
       ['b', 1, letters],
       ['c', 2, letters],
     ]);
-  });
-
-  xit("should handle a null value gracefully", function() {
-    var answers = 0;
-    _.each(null, function() { ++answers; });
-
-    expect(answers).to.equal(0);
   });
 });
 
@@ -184,13 +173,6 @@ describe("map", function() {
     var doubled = _.map([1, 2, 3], function(num) { return num * 2; });
 
     expect(doubled).to.eql([2, 4, 6]);
-  });
-
-  xit("should handle a null value gracefully", function() {
-    var ifnull = _.map(null, function() {});
-
-    expect(Array.isArray(ifnull)).to.be(true);
-    expect(ifnull.length).to.equal(0);
   });
 });
 
