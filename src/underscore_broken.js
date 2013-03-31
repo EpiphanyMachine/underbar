@@ -1,11 +1,32 @@
 (function() {
+  // Return an array of the last n elements of an array. If n is undefined,
+  // return just the last element.
+  var last = function(array, n) {
+  };
+
+  // Like last, but for the first elements
+  var first = function(array, n) {
+  };
 
   // Call iterator(value, key, obj) for each element of obj
   var each = function(obj, iterator) {
   };
 
-  // Determine if the array or object contains a given value (using `===`).
-  var contains = function(obj, target) {
+  // Returns the index at which value can be found in the array, or -1 if value
+  // is not present in the array.
+  var indexOf = function(array, value) {
+  };
+
+  // Return all elements of an array that pass a truth test.
+  var filter = function(array, iterator) {
+  };
+
+  // Return all elements of an array that don't pass a truth test.
+  var reject = function(array, iterator) {
+  };
+
+  // Produce a duplicate-free version of the array.
+  var uniq = function(array) {
   };
 
   // Return the results of applying an iterator to each element.
@@ -18,13 +39,8 @@
   var pluck = function(obj, property) {
   };
 
-  // Return an array of the last n elements of an array. If n is undefined,
-  // return just the last element.
-  var last = function(array, n) {
-  };
-
-  // Like last, but for the first elements
-  var first = function(array, n) {
+  // Calls the method named by methodName on each value in the list.
+  var invoke = function(list, methodName) {
   };
 
   // Reduces an array or object to a single value by repetitively calling
@@ -43,12 +59,8 @@
   var reduce = function(obj, iterator, initialValue) {
   };
 
-  // Return all elements of an array that pass a truth test.
-  var select = function(array, iterator) {
-  };
-
-  // Return all elements of an array that don't pass a truth test.
-  var reject = function(array, iterator) {
+  // Determine if the array or object contains a given value (using `===`).
+  var contains = function(obj, target) {
   };
 
   // Determine whether all of the elements match a truth test.
@@ -60,8 +72,24 @@
   var any = function(obj, iterator) {
   };
 
-  // Produce a duplicate-free version of the array.
-  var uniq = function(array) {
+  // Extend a given object with all the properties of the passed in
+  // object(s).
+  //
+  // Example:
+  //   var obj1 = {key1: "something"};
+  //   _.extend(obj1, {
+  //     key2: "something new",
+  //     key3: "something else new"
+  //   }, {
+  //     bla: "even more stuff"
+  //   }); // obj1 now contains key1, key2, key3 and bla
+  //
+  var extend = function(obj) {
+  };
+
+  // Like extend, but doesn't ever overwrite a key that already
+  // exists in obj
+  var defaults = function(obj) {
   };
 
   // Return a function that can be called at most one time. Subsequent calls
@@ -87,32 +115,8 @@
   var delay = function(func, wait) {
   };
 
-  // Extend a given object with all the properties of the passed in
-  // object(s).
-  //
-  // Example:
-  //   var obj1 = {key1: "something"};
-  //   _.extend(obj1, {
-  //     key2: "something new",
-  //     key3: "something else new"
-  //   }, {
-  //     bla: "even more stuff"
-  //   }); // obj1 now contains key1, key2, key3 and bla
-  //
-  var extend = function(obj) {
-  };
-
-  // Like extend, but doesn't ever overwrite a key that already
-  // exists in obj
-  var defaults = function(obj) {
-  };
-
-  // Flattens a multidimensional array to a one-dimensional array that
-  // contains all the elements of all the nested arrays.
-  //
-  // Hints: Use Array.isArray to check if something is an array
-  //
-  var flatten = function(nestedArray, result) {
+  // Shuffle an array.
+  var shuffle = function(obj) {
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -130,6 +134,14 @@
   var zip = function() {
   };
 
+  // Flattens a multidimensional array to a one-dimensional array that
+  // contains all the elements of all the nested arrays.
+  //
+  // Hints: Use Array.isArray to check if something is an array
+  //
+  var flatten = function(nestedArray, result) {
+  };
+
   // Produce an array that contains every item shared between all the
   // passed-in arrays.
   var intersection = function(array) {
@@ -138,10 +150,6 @@
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   var difference = function(array) {
-  };
-
-  // Shuffle an array.
-  var shuffle = function(obj) {
   };
 
   // EXTRA CREDIT:
