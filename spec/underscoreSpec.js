@@ -200,7 +200,6 @@ describe("invoke", function() {
   });
 });
 
-
 describe("invoke with function reference", function() {
   it("should sort the first array", function() {
     var list = [[5, 1, 7], [3, 2, 1]];
