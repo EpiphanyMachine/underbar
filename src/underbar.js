@@ -27,8 +27,6 @@ var _ = {};
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
   _.indexOf = function(array, target){
-    if (array == null) { return -1; }
-
     var result = -1;
 
     _.each(array, function(item, index) {
