@@ -106,13 +106,6 @@ describe("indexOf", function() {
 
     expect(index).to.be(1);
   });
-
-  it("should support the fromIndex argument", function() {
-    numbers = [1, 2, 3, 1, 2, 3, 1, 2, 3];
-    index = _.indexOf(numbers, 2, 5);
-
-    expect(index).to.be(7);
-  });
 });
 
 describe("filter", function() {
