@@ -76,17 +76,17 @@ describe("indexOf", function() {
 
   it("should not have 35 in the list", function() {
     var numbers = [10, 20, 30, 40, 50];
-    expect(_.indexOf(numbers, 35, true)).to.be(-1);
+    expect(_.indexOf(numbers, 35)).to.be(-1);
   });
 
   it("should have 40 in the list", function() {
     var numbers = [10, 20, 30, 40, 50];
-    expect(_.indexOf(numbers, 40, true)).to.be(3);
+    expect(_.indexOf(numbers, 40)).to.be(3);
   });
 
   it("should have 40 in the list even when there are duplicates", function() {
     var numbers = [1, 40, 40, 40, 40, 40, 40, 40, 50, 60, 70];
-    expect(_.indexOf(numbers, 40, true)).to.be(1);
+    expect(_.indexOf(numbers, 40)).to.be(1);
   });
 });
 
