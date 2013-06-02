@@ -22,14 +22,24 @@ var _ = {};
   // Like last, but for the first elements
   _.first = function(array, n) {
     // TIP: you can often re-use similar functions in clever ways, like so:
-    return _.last(array.reverse(), n);
+    //return _.last(array.reverse(), n);
+    if (n === undefined) {
+      return array[0];
+    } else {
+      if (n >= array.length) {
+        return array;
+      }
+      var arrayLast = [];
+      for (var i = 0; i < n; i++) {
+        arrayLast.push(array[i]);
+      }
+      return arrayLast;
+    }
   };
 
 
   // Call iterator(value, key, collection) for each element of collection
   _.each = function(obj, iterator) {
-
-
   };
 
   /*
