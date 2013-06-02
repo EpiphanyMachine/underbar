@@ -12,7 +12,7 @@ var _ = {};
         return array;
       }
       var arrayLast = [];
-      for (i = array.length - n; i < array.length; i++) {
+      for (var i = array.length - n; i < array.length; i++) {
         arrayLast.push(array[i]);
       }
       return arrayLast;
@@ -28,6 +28,8 @@ var _ = {};
 
   // Call iterator(value, key, collection) for each element of collection
   _.each = function(obj, iterator) {
+
+
   };
 
   /*
