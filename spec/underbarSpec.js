@@ -1,5 +1,7 @@
 var returnArguments = function(){ return arguments; };
 
+/*
+
 describe("last", function() {
   it("should pull the last element from an array", function() {
     expect(_.last([1,2,3])).to.equal(3);
@@ -23,8 +25,6 @@ describe("last", function() {
   });
 
 });
-
-/*
 
 describe("first", function() {
   it("should be able to pull out the first element of an array", function() {
@@ -158,6 +158,8 @@ describe("pluck", function() {
   });
 });
 
+*/
+
 describe("invoke", function() {
   it("should sort the first array", function() {
     var lists = [[5, 1, 7], [3, 2, 1]];
@@ -201,6 +203,8 @@ describe("reduce", function() {
   });
 
 });
+
+/*
 
 describe("contains", function() {
   it("should return true if a collection contains a user-specified value", function() {
