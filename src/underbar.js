@@ -82,10 +82,30 @@ var _ = {};
   _.reject = function(collection, iterator) {
     // TIP: see if you can re-use _.select() here, without simply
     // copying code in and modifying it
+      return _.filter(collection, function(test) {
+        return !iterator.call(collection, test);
+      });
+    // not really sure why this works....
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var passed = [array[0]];
+    for (var i = 1; i < array.length; i++) {
+      //console.log(passed);
+      var r = 0;
+      for (var j = 0; j < passed.length; j++) {
+        //console.log("i = " + i +" (" + array[i] + ") | j = " + j +" (" + passed[j] + ")" + " | r=" +r);
+        if (array[i] === passed[j]) {
+          r += 1;
+        }
+      }
+      if (r === 0) {
+        passed.push(array[i]);
+      }
+    }
+    //console.log(passed + " NEXT ONE!!!!!");
+    return passed;
   };
 
 
