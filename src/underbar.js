@@ -40,10 +40,19 @@ var _ = {};
 
   // Call iterator(value, key, collection) for each element of collection
   _.each = function(obj, iterator) {
-    for (var i = 0; i <obj.length; i++) {
-      var value = obj[i];
-      var key = i;
-      iterator(value, key, obj);
+    if (Object.prototype.toString.call(obj) === "[object Object]") {
+      for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          var value = obj[key];
+          iterator(value, key, obj);
+        }
+      }
+    } else {
+      for (var i = 0; i <obj.length; i++) {
+        var arrValue = obj[i];
+        var index = i;
+        iterator(arrValue, index, obj);
+      }
     }
   };
 
