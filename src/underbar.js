@@ -213,7 +213,7 @@ var _ = {};
       if(!everyTrue){
         return false;
       }
-      return iterator(item);
+      return !!iterator(item);
     }, true);
   };
 
@@ -226,7 +226,7 @@ var _ = {};
       if(anyTrue){
         return true;
       }
-      return iterator(item);
+      return !!iterator(item);
     }, false);
   };
 
