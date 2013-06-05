@@ -78,6 +78,17 @@ var _ = {};
     return passed;
   };
 
+  // Andrew Spade code - needed help fixing error changed result[index] = val; to result.push(val);
+  // this removed empty elements in the array
+  //
+  // _.filter = function(collection, iterator) {
+  //   var result = [];
+  //   _.each(collection, function(val, index, arr){ //for each in collection
+  //     if (iterator.call(collection, val, index, arr)) result.push(val); //call iterator with data; if true, assign result
+  //   });
+  //   return result;
+  // };
+
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, iterator) {
     // TIP: see if you can re-use _.select() here, without simply
