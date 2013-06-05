@@ -260,6 +260,15 @@ var _ = {};
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var extensions = arguments;
+    _.each(extensions, function(value, key){
+      _.each(value, function(value, key){
+        if (!Object.prototype.hasOwnProperty.call(obj, key)) {
+        obj[key] = value;
+        }
+      });
+    });
+    return obj;
   };
 
 
