@@ -78,7 +78,7 @@ var _ = {};
     return passed;
   };
 
-  // Andrew Spade code - needed help fixing error changed result[index] = val; to result.push(val);
+  // Andrew Spade code - needed help fixing error: changed result[index] = val; to result.push(val);
   // this removed empty elements in the array
   //
   // _.filter = function(collection, iterator) {
@@ -177,14 +177,10 @@ var _ = {};
   //
   _.reduce = function(obj, iterator, initialValue) {
     var total;
-    if (initialValue !== undefined) {
-      total = initialValue;
-    } else {
-      total = 0;
-    }
-    for (var i = 0; i < obj.length; i++) {
-        total = iterator(total, obj[i]);
-    }
+    if (initialValue === undefined) {total = 0;} else {total = initialValue;}
+    _.each(obj, function(value){
+      total = iterator(total, value);
+    });
     return total;
   };
 
