@@ -221,6 +221,13 @@ var _ = {};
   // provided, provide a default one
   _.any = function(obj, iterator) {
     // TIP: re-use every() here
+    if (iterator === undefined) {iterator = function(item) {if (item) {return true;} else {return false;}};}
+    return _.reduce(obj, function(anyTrue, item){
+      if(anyTrue){
+        return true;
+      }
+      return iterator(item);
+    }, false);
   };
 
 
