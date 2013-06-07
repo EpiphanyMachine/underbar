@@ -334,6 +334,12 @@ var _ = {};
 
   // Shuffle an array.
   _.shuffle = function(obj) {
+    // this switches the first item with another random item
+    var index = (Math.random() * obj.length) | 0;
+    var temp = obj[0];
+    obj[0] = obj[index];
+    obj[index] = temp;
+    return obj;
   };
 
   /* (End of pre-course curriculum) */
