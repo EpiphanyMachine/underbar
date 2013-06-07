@@ -335,6 +335,7 @@ var _ = {};
   // Shuffle an array.
   _.shuffle = function(obj) {
     // this switches the first item with another random item
+    // does not pass test because _.range is not defined
     var index = (Math.random() * obj.length) | 0;
     var temp = obj[0];
     obj[0] = obj[index];
